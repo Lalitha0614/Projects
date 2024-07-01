@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>i.AmCop</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="css\styles.css">
+</head>
+<body>
+
+  <header style="font-family: GraublauWeb, sans-serif;">
+    <h1><a href="index.html"><img src="..\i-amcop\assets\logos\AmCop-modified.png" alt="Logo" class="logo"></a>Amrita Cop Connect</h1>
+    <nav id="nav">
+      <ul class="sidebar">
+        <li onclick="hideSidebar()">
+          <div class="btn">
+            <i class="fa-solid fa-times"></i>
+        </div>
+          </li>
+        <li><a href="index.html"><i class="fa-solid fa-home"></i><span> Home</span></a></li>
+        <li><a href="..\i-amcop\html\signin.html"><i class="fa-solid fa-sign-in-alt"></i><span> Login</span></a></li>
+        <li><a href="..\i-amcop\html\about.html"><i class="fa-solid fa-info-circle"></i> About</a></li>
+        <li><a href="..\i-amcop\html\ccio.html"><i class="fa-solid fa-comment"></i><span> CCIO</span></a></li>
+    </ul>
+        <ul>
+          <li class="hideonmoble"><a href="index.html"><i class="fa-solid fa-home"></i><span> Home</span></a></li>
+          <li class="hideonmoble"><a href="..\i-amcop\html\signin.html"><i class="fa-solid fa-sign-in-alt"></i><span> Login</span></a></li>
+          <li class="hideonmoble"><a href="..\i-amcop\html\about.html"><i class="fa-solid fa-info-circle"></i> About</a></li>
+          <li class="hideonmoble"><a href="..\i-amcop\html\ccio.html"><i class="fa-solid fa-comment"></i><span> CCIO</span></a></li>
+          <li onclick="showSidebar()">
+            <div class="btn">
+              <i class="fa-solid fa-bars menu-btn"></i>
+          </div>
+          </li>
+        </ul>
+        
+    </nav>
+</header>
+
+      
+<div class="container2" id="container2">
+  <div class="container3" id="container3">
+    <h1>-00-</h1>
+  </div>
+  <p><h3 style="text-align: center; font-family: HammerSmithOne; "> CASES HANDLED</h3></p>
+</div>
+<div class="container2" id="container2">
+  <div class="container3" id="container3">
+    <h1>-00-</h1>
+  </div>
+  <p><h3 style="text-align: center; font-family: HammerSmithOne; ">CASES REGISTERED</h3></p>
+</div>
+
+<div class="container-wrapper">
+  <div class="container1" id="container1">
+    <div class="gallery">
+      <div class="image-box">
+        <img src="..\i-amcop\assets\1.jpg">
+      </div>
+      <div class="image-box">
+        <img src="..\i-amcop\assets\2.jpg">
+      </div>
+      <div class="image-box">
+        <img src="..\i-amcop\assets\3.jpg">
+      </div>
+      <div class="image-box">
+        <img src="..\i-amcop\assets\4.jpg">
+      </div>
+      <div class="image-box">
+        <img src="..\i-amcop\assets\5.jpg">
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  window.watsonAssistantChatOptions = {
+    integrationID: "6c356b0b-c811-472c-98ed-c207b9c42bac", // The ID of this integration.
+    region: "au-syd", // The region your integration is hosted in.
+    serviceInstanceID: "5c90fc68-a6b5-4a91-a84e-7f444968bdb4", // The ID of your service instance.
+    onLoad: async (instance) => { await instance.render(); }
+  };
+  setTimeout(function(){
+    const t=document.createElement('script');
+    t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
+    document.head.appendChild(t);
+  });
+</script>
+<footer style="font-family: GraublauWeb, sans-serif;">
+  <p>
+    <img style="margin-left: 20px;" src="..\i-amcop\assets\logos\amrita_uncoloered.svg">
+  <div class="wrapper">
+    <img style="margin-left: 20px;" height="100px" src="..\i-amcop\assets\logos\Tifac_core-modified.png">
+    <img style="margin-left: 20px;" height="100px" src="..\i-amcop\assets\logos\isac.png">
+    <img style="margin-left: 20px;" height="100px" src="..\i-amcop\assets\logos\copconnect-modified.png">
+    <img style="margin-left: 20px;" height="100px" src="..\i-amcop\assets\logos\AmCop-modified.png">
+  </div>
+  <div class="wrapper">
+    <div class="resources-wrapper">
+      <p>
+        <h3>About</h3>
+      </p>
+      <a href="https://www.amrita.edu/" target="blank">Amrita</a>
+      <a href="https://www.amrita.edu/center/tifac-core-cyber-security" target="blank">TIFAC-CORE</a>
+      <a href="https://isacfoundation.org/" target="blank">ISAC</a>
+    </div>
+    <div class="resources-wrapper">
+      <p>
+        <h3>Resources</h3>
+      </p>
+      <a href="https://www.digilocker.gov.in/" target="blank">DigiLocker</a>
+      <a href="https://cybercrime.gov.in/" target="blank">CyberCrime</a>
+      <a href="https://copconnect.isacfoundation.org/" target="blank">CopConnect</a>
+      <a href="https://www.cybercrime.gov.in/" target="blank">CyberCrime/Cell</a>
+      <a href="https://digitalpolice.gov.in/" target="blank">Digital Police</a>
+    </div>
+    <div class="resources-wrapper">       
+      <p>
+        <h3>Reports</h3>
+      </p>
+      <a href="https://digitalpolice.gov.in/" target="blank">Crime Bureau(Crime in India)</a>
+      <a href="https://cybercrime.gov.in/" target="blank">CyberCrime</a>
+      <a href="https://www.cybercrime.gov.in/" target="blank">CyberCrime/Cell</a>
+      <a href="https://digitalpolice.gov.in/" target="blank">Digital Police</a>
+    </div>
+    <div class="resources-wrapper">
+      <p>
+        <h3>Research</h3>
+      </p>
+      <a href="https://copconnect.isacfoundation.org/" target="blank">CopConnect</a>
+      <a href="https://www.cybercrime.gov.in/" target="blank">CyberCrime/Cell</a>
+      <a href="https://digitalpolice.gov.in/" target="blank">Digital Police</a>
+    </div>
+  </div>
+  <p class="copyright_home">© 2024 i.AmCop</p>
+</footer>
+<script>
+
+  // Function to show the sidebar
+  function showSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.style.display = 'flex';
+  }
+
+  // Function to hide the sidebar
+  function hideSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.style.display = 'none';
+  }
+
+  // Add event listener to window object to detect scrolling
+  window.addEventListener('scroll', function() {
+    // Call hideSidebar() function to hide the sidebar when scrolling occurs
+    hideSidebar();
+  });
+
+
+    
+</script>
+
+</body>
+</html>
