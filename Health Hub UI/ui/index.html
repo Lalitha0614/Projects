@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>HOME</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body{background-image: url('images/background1.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }       
+    </style>
+</head>
+
+
+<body>
+    
+    <header>
+		<h1>HEALTH HUB</h1>
+		<nav>
+            <a href="html/about.html" >About</a>
+            <span>&nbsp;</span>
+            <a href="https://github.com/Amrita-TIFAC-Cyber-Blockchain/20CYS202-User_Interface_Design">Contact</a>
+            <span>&nbsp;</span>
+            <a href="html/signup.html"  id="logoutButton">Logout</a> 
+            
+            
+        </nav>
+    </header>
+    <center>
+        <br><br><br><br><br>
+        <table align="center">
+            <tr>
+                <td>
+                    <!-- Steps section -->
+                    <div class="custom-small">
+                        <div class="headings">
+                            <h3>Steps</h3>
+                        </div>
+                        <table>
+                            <tr>
+                                <td><label for="targetSteps">Target Steps:</label></td>
+                                <td><input type="number" id="targetSteps" class="targetStepsInput" min="0" value="15000" required readonly></td>
+                            </tr>
+                            <tr>
+                                <td><label for="enteredSteps">Entered Steps:</label></td>
+                                <td><input type="number" id="enteredSteps" class="enteredStepsInput" min="0" required></td>
+                            </tr>
+                        </table>
+                        <div id="performanceContainer"></div>
+                    </div>
+                </td>
+                <td>
+                    <!-- Body composition section -->
+                    <div class="custom-small-another">
+                        <div class="headings">
+                            <h3><i class="fas fa-weight"></i> Body composition</h3>
+                        </div>
+                        <table>
+                            <tr>
+                                <td><label for="weight">Weight (kg):</label></td>
+                                <td><input type="number" id="weight" class="bodyCompositionInput" min="0" step="0.1" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="height">Height (m):</label></td>
+                                <td><input type="number" id="height" class="bodyCompositionInput" min="0" step="0.1" required></td>
+                            </tr>
+                        </table>
+                        <div id="bmiContainer"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <!-- Heart rate section -->
+                    <div class="custom-small">
+                        <div class="headings">
+                            <h3><i class="fas fa-heartbeat"></i> Heart rate</h3>
+                        </div>
+                        <table>
+                            <tr>
+                                <td><label for="age">Age:</label></td>
+                                <td><input type="number" id="age" class="age" min="0" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="Heartrate">Heart Rate:</label></td>
+                                <td><input type="number" id="Heartrate" class="Heartrate" min="0" required></td>
+                            </tr>
+                        </table>
+                        <!-- Display Heart Condition -->
+                        <div id="heartConditionContainer"></div>
+                    </div>
+                </td>
+                <td>
+                    <!-- Blood pressure section -->
+                    <div class="custom-small-another">
+                        <div class="headings">
+                            <h3><i class="fas fa-tachometer-alt"></i> Blood pressure</h3>
+                        </div>
+                        <table>
+                            <tr>
+                                <td><label for="systolicPressure">Systolic Pressure (mmHg):</label></td>
+                                <td><input type="number" id="systolicPressure" class="bloodPressureInput" min="0" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="diastolicPressure">Diastolic Pressure (mmHg):</label></td>
+                                <td><input type="number" id="diastolicPressure" class="bloodPressureInput" min="0" required></td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        
+    
+    <!-- Image section -->
+    <div class="frame3">
+        <canvas id="weeklyProgressCanvas" width="480" height="350"></canvas>
+    </div>
+
+    <!-- Calories input section -->
+    <div class="frame4">
+        <div class="headings">
+            <h3>Enter the calories here</h3>
+        </div>
+
+        <div class="line">
+            <div class="day-input">
+                <label for="MondayCalories">Monday:</label>
+                <input type="number" id="MondayCalories" class="dailyCaloriesInput" min="0" required>
+            </div>
+
+            <div class="day-input">
+                <label for="TuesdayCalories">Tuesday:</label>
+                <input type="number" id="TuesdayCalories" class="dailyCaloriesInput" min="0" required>
+            </div>
+        </div>
+        <div class="line">
+            <div class="day-input">
+                <label for="WednesdayCalories">Wednesday:</label>
+                <input type="number" id="WednesdayCalories" class="dailyCaloriesInput" min="0" required>
+            </div>
+
+            <div class="day-input">
+                <label for="ThursdayCalories">Thursday:</label>
+                <input type="number" id="ThursdayCalories" class="dailyCaloriesInput" min="0" required>
+            </div>
+        </div>
+
+        <div class="line">
+            <div class="day-input">
+                <label for="FridayCalories">Friday:</label>
+                <input type="number" id="FridayCalories" class="dailyCaloriesInput" min="0" required>
+            </div>
+
+            <div class="day-input">
+                <label for="SaturdayCalories">Saturday:</label>
+                <input type="number" id="SaturdayCalories" class="dailyCaloriesInput" min="0" required>
+            </div>
+
+            <div class="day-input">
+                <label for="SundayCalories">Sunday:</label>
+                <input type="number" id="SundayCalories" class="dailyCaloriesInput" min="0" required>
+            </div>
+        </div>
+
+        <div class="line">
+            <button id="updateButton" target="_blank" onclick="updateChartPage()">Update Chart</button>
+        </div>
+    </div>
+</center>
+<br>
+<footer>
+    <p>&copy; Copyright - 2023 </p>
+    <p>Health Hub - Parthiv Kumar & Lalitha</p>
+    <p>II Year Btech CSE(CYS)<p>
+    <p>Part of 20CYS202 - User Interface Design </p>
+    <p>Amrita Vishwa Vidyapeetham, Coimbatore</p>
+    
+</footer>
+<script src="js/index.js" ></script>
+
+</body>
+
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGN_IN</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        body{background-image: url('../images/background1.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }       
+    </style>
+</head>
+
+<body align="center">
+    <header>
+		<h1>HEALTH HUB</h1>
+		<nav>
+            <a href="about.html" >About</a>
+            <span>&nbsp;</span>
+            <a href="https://github.com/Amrita-TIFAC-Cyber-Blockchain/20CYS202-User_Interface_Design">Contact</a>
+            <span>&nbsp;</span>
+            <span>&nbsp;</span> 
+        </nav>
+    </header><br><br><br><br>
+    <div class="frame1">
+        <div class="frame-container-heading">
+            <h2>SIGN IN</h2>
+        </div>
+        <div class="frame-container-data">
+            <form>
+                <table>
+                    <tr>
+                        <td>Username</td>
+                        <td>: <input type="text" id="username" required></td>
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td>: <input type="password" id="password" required ></td>
+                    </tr>
+                    <tr>
+                        <td><a href="signup.html" target="_blank">Sign up</a></td>
+                        <td>
+                            <!-- Attach the validateLogin function to the button click event -->
+                            <button type="button" onclick="validateLogin()" target="_blank">Login</button>
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td><a href="forgot_password.html" target="_blank" style="color:#FDCD55">Forgot my password</a></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div><br>
+    <footer>
+        <p>&copy; Copyright - 2023 </p>
+        <p>Health Hub - Parthiv Kumar & Lalitha</p>
+        <p>Amrita Vishwa Vidyapeetham, Coimbatore</p>
+        
+    </footer>
+    <script>
+        function validateLogin() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            if (username === "admin" && password === "admin") {
+                window.location.href = "../index.html";
+            }
+            else if (username === "" && password === "") {
+                alert("the fieldes should not be empty");
+            } else {
+                alert("Incorrect username or password.");
+            }
+        }
+    </script>
+</body>
+
+</html>

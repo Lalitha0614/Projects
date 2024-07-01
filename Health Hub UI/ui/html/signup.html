@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGN_UP</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        body{background-image: url('../images/background1.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }       
+    </style>
+</head>
+
+<body>
+    <header>
+		<h1>HEALTH HUB</h1>
+		<nav>
+            <a href="about.html" >About</a>
+            <span>&nbsp;</span>
+            <a href="https://github.com/Amrita-TIFAC-Cyber-Blockchain/20CYS202-User_Interface_Design">Contact</a> 
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+        </nav>
+    </header><br><br><br><br>
+    <div class="frame_signup">
+        <div class="frame-container-heading">
+            <h2>SIGNUP</h2>
+        </div>
+        <div class="frame-container-data">
+            <form onsubmit="return validateForm()">
+                <table>
+                    <tr>
+                        <td>First name</td>
+                        <td>: <input type="text" name="firstname" required placeholder="First name"></td>
+                    </tr>
+                    <tr>
+                        <td>Last name</td>
+                        <td>: <input type="text" name="lastname" required placeholder="Last name"></td>
+                    </tr>
+                    <tr>
+                        <td>Username</td>
+                        <td>: <input type="text" name="username" required placeholder="Username"></td>
+                    </tr>
+                    <tr>
+                        <td>E-mail</td>
+                        <td>: <input type="email" name="email" required placeholder="Email"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Phone Number</td>
+                        <td>: <input type="tel" name="phone" required placeholder="Phone number"></td>
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td>: <input type="password" id="password" name="password" required placeholder="Password"></td>
+                    </tr>
+                    <tr>
+                        <td>Re-enter Password</td>
+                        <td>: <input type="password" id="repassword" name="repassword" required
+                                placeholder="Re-enter Password"></td>
+                    </tr>
+                    <tr>
+                        <td> <input type="submit" name="Submit" value="Sign up"></td>
+                        <td>
+                            <font style="font-size: small; color:#fbd4d4">Already have an account?</font><br>
+                            <a href="signin.html" target="_self" class="action-button" style="color:#55fd71">Sign
+                                in</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div><br>
+    <footer>
+        <p>&copy; Copyright - 2023 </p>
+        <p>Health Hub - Parthiv Kumar & Lalitha</p>
+        <p>Amrita Vishwa Vidyapeetham, Coimbatore</p>
+        
+    </footer>
+    <script>
+        function validateForm() {
+            var password = document.getElementById("password").value;
+            var repassword = document.getElementById("repassword").value;
+
+            if (password !== repassword) {
+                alert("Passwords do not match!");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+
+</html>
