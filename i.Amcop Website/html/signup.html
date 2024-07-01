@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AMCOP Signup</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="..\css\styles.css">
+  <style>
+    /* Reset styles */
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-image: url("../assets/bg/bg.jpg");
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      /* Enable vertical scrolling */
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position-y: fixed;
+      background-size: cover;
+    }
+
+    .eye-icon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header5">
+    <h1><a href="..\index.html"><img src="..\assets\logos\AmCop-modified.png" alt="Logo" class="logo"></a>i.AmCop Signup</h1>
+    <nav>
+      <ul class="sidebar">
+        <li onclick="hideSidebar()">
+          <div class="btn">
+            <i class="fa-solid fa-times"></i>
+          </div>
+        </li>
+        <li><a href="..\index.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+      </ul>
+      <ul>
+        <li class="hideonmoble"><a href="..\index.html"><i class="fas fa-home"></i> Home</a></li>
+        <li class="hideonmoble"><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+        <li onclick="showSidebar()">
+          <div class="btn">
+            <i class="fa-solid fa-bars menu-btn"></i>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <div class="form1">
+    <div class="form1-box">
+      <div class="button1-box">
+        <h1>Signup</h1>
+      </div>
+      <form id="signup-form" class="input-group1">
+        <input name="Name" id="Name" type="text" class="input-field" placeholder="Full Name">
+        <span id="name_error" style="color: red"></span>
+
+        <input name="Email" id="Email" type="text" class="input-field" placeholder="Email Address">
+        <span id="Email_error" style="color: red"></span>
+
+        <input name="Username" id="Username" type="text" class="input-field" placeholder="Username">
+        <span id="Username_error" style="color: red"></span>
+
+        <div style="position: relative;">
+          <input name="Password" id="Password" type="password" class="input-field" placeholder="Password">
+          <span id="togglePassword" class="eye-icon"><i class="fas fa-eye"></i></span>
+        </div>
+        <span id="Password_error" style="color: red"></span>
+
+        <div style="position: relative;">
+          <input name="CPassword" id="CPassword" type="password" class="input-field" placeholder="Confirm Password">
+          <span id="confirmTogglePassword" class="eye-icon"><i class="fas fa-eye"></i></span>
+        </div>
+        <span id="CPassword_error" style="color: red"></span>
+
+        <div style="position: relative;">
+        <input name="T&C" id="T&C" type="checkbox" class="check-box" id="agree">
+        <label for="agree">Agree to Terms and Conditions</label>
+        </div>
+        <span id="terms_error" style="color: red"></span>
+        
+
+        <div class="button-container">
+          <a href="signin.html" class="submit-btn2">Login</a>
+          <button type="submit" class="submit-btn1">Sign Up</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer5">
+    <p>© 2024 i.AmCop</p>
+  </div>
+  <script src="..\js\toggle.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const passwordField = document.getElementById('Password');
+      const confirmField = document.getElementById('CPassword');
+      const togglePassword = document.getElementById('togglePassword');
+      const confirmTogglePassword = document.getElementById('confirmTogglePassword');
+
+      togglePassword.addEventListener('click', function() {
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        this.querySelector('i').classList.toggle('fa-eye-slash');
+      });
+
+      confirmTogglePassword.addEventListener('click', function() {
+        const type = confirmField.getAttribute('type') === 'password' ? 'text' : 'password';
+        confirmField.setAttribute('type', type);
+        this.querySelector('i').classList.toggle('fa-eye-slash');
+      });
+    });
+
+    const FormE = document.querySelector('#signup-form');
+    FormE.addEventListener('submit', event => {
+
+      const form_data = new FormData(FormE);
+      console.log(form_data.get('Name'));
+
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+      if (form_data.get('Name') === '' || form_data.get('Name') == null) {
+        event.preventDefault();
+        name_error.innerHTML = "Name is Required";
+      } else {
+        name_error.innerHTML = "";
+      }
+
+      if (form_data.get('Email') === '' || form_data.get('Email') == null) {
+        event.preventDefault();
+        Email_error.innerHTML = "Email is Required";
+      } else if (!form_data.get('Email').match(emailPattern)) {
+        event.preventDefault();
+        Email_error.innerHTML = "Invalid email format";
+      } else {
+        Email_error.innerHTML = "";
+      }
+
+      if (form_data.get('Username') === '' || form_data.get('Username') == null) {
+        event.preventDefault();
+        Username_error.innerHTML = "Username is Required";
+      } else {
+        Username_error.innerHTML = "";
+      }
+
+      if (form_data.get('Password') === '' || form_data.get('Password') === null) {
+        event.preventDefault();
+        Password_error.innerHTML = "Password is Required";
+      } else if (form_data.get('Password').length <= 8) {
+        event.preventDefault();
+        Password_error.innerHTML = "Password should be at least 8 characters long";
+      } else {
+        Password_error.innerHTML = "";
+      }
+
+      if (form_data.get('CPassword') === '' || form_data.get('CPassword') == null) {
+        event.preventDefault();
+        CPassword_error.innerHTML = "Please confirm your password";
+      } else if (form_data.get('CPassword') !== form_data.get('Password')) {
+        event.preventDefault();
+        CPassword_error.innerHTML = "Passwords do not match";
+      } else {
+        CPassword_error.innerHTML = "";
+      }
+
+      if (form_data.get('T&C') == null) {
+        event.preventDefault();
+        terms_error.innerHTML = "Please agree to the Terms and Conditions";
+      } else {
+        terms_error.innerHTML = "";
+      }
+
+      const form_object = Object.fromEntries(form_data);
+      console.log(form_object);
+
+    });
+  </script>
+</body>
+
+</html>
