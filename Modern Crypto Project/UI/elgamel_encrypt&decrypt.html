@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElGamal Encryption/Decryption</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        label {
+            font-size: 16px;
+            color: #333;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 8px 16px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            font-size: 16px;
+            color: #333;
+        }
+
+        table {
+            margin: 20px auto; /* Center the table */
+            border-collapse: collapse;
+            width: 70%;
+            max-width: 500px; /* Limit the maximum width */
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+    <script>
+        let encryptionParams = {};
+        function gcd(a, b) {
+            if (a < b) {
+                return gcd(b, a);
+            } else if (a % b === 0) {
+                return b;
+            } else {
+                return gcd(b, a % b);
+            }
+        }
+
+        function isPrime(num) {
+            if (num < 2) {
+                return false;
+            }
+            for (let i = 2; i <= Math.sqrt(num); i++) {
+                if (num % i === 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function power(a, b, c) {
+            let x = 1;
+            let y = a;
+            while (b > 0) {
+                if (b % 2 === 1) {
+                    x = (x * y) % c;
+                }
+                y = (y * y) % c;
+                b = Math.floor(b / 2);
+            }
+            return x % c;
+        }
+
+        function genKey(n) {
+            let key = Math.floor(Math.random() * (Math.pow(2, n + 2) - Math.pow(2, n) + 1) + Math.pow(2, n));
+            while (!isPrime(key)) {
+                key = Math.floor(Math.random() * (Math.pow(2, n + 2) - Math.pow(2, n) + 1) + Math.pow(2, n));
+            }
+            return key;
+        }
+
+        function findPrimitive(n) {
+            let s = new Set();
+            let phi = n - 1;
+            findPrimefactors(s, phi);
+
+            for (let r = 2; r <= phi; r++) {
+                let flag = false;
+                for (let it of s) {
+                    if (power(r, phi / it, n) === 1) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (!flag) {
+                    return r;
+                }
+            }
+        }
+
+        function findPrimefactors(s, n) {
+            while (n % 2 === 0) {
+                s.add(2);
+                n = Math.floor(n / 2);
+            }
+            for (let i = 3; i <= Math.sqrt(n); i += 2) {
+                while (n % i === 0) {
+                    s.add(i);
+                    n = Math.floor(n / i);
+                }
+            }
+            if (n > 2) {
+                s.add(n);
+            }
+        }
+
+        function modInverse(A, M) {
+            for (let X = 1; X < M; X++) {
+                if (((A % M) * (X % M)) % M === 1) {
+                    return X;
+                }
+            }
+            return -1;
+        }
+
+        function encryption() {
+        let msg = parseInt(document.getElementById('message').value);
+        let length = parseInt(document.getElementById('length').value);
+
+        // Initialize encryptionParams
+        encryptionParams = {
+            p: genKey(length),
+            g: findPrimitive(encryptionParams.p),
+            key: parseInt(document.getElementById('secretKey').value),
+            rand: Math.floor(Math.random() * (encryptionParams.p - 2)) + 2
+        };
+
+        let h = power(encryptionParams.g, encryptionParams.key, encryptionParams.p);
+        encryptionParams.c1 = power(encryptionParams.g, encryptionParams.rand, encryptionParams.p);
+        encryptionParams.c2 = (msg * power(h, encryptionParams.rand, encryptionParams.p)) % encryptionParams.p;
+
+        document.getElementById('originalMessage').textContent = `Original Message: ${msg}`;
+        document.getElementById('encryptedMessage').textContent = `Encrypted Message: [${encryptionParams.c1}, ${encryptionParams.c2}]`;
+    }
+
+    function decryption() {
+        let ctString = document.getElementById('ciphertext').value;
+        let ct = JSON.parse(ctString);
+        let p = encryptionParams.p;
+        let key = encryptionParams.key;
+
+        let temp = modInverse(ct[0], p);
+        let pt = (ct[1] * power(temp, key, p)) % p;
+
+        document.getElementById('decryptedMessage').textContent = `Decrypted Message: ${pt}`;
+    }
+
+    </script>
+</head>
+<body>
+    <h1>ElGamal Encryption/Decryption</h1>
+    <table>
+        <tr>
+            <td><label for="length">Enter the length of the prime:</label></td>
+            <td><input type="number" id="length" required></td>
+        </tr>
+        <tr>
+            <td><label for="secretKey">Enter secret key:</label></td>
+            <td><input type="number" id="secretKey" required></td>
+        </tr>
+        <tr>
+            <td><label for="message">Enter message:</label></td>
+            <td><input type="number" id="message" required></td>
+        </tr>
+        <tr>
+            <td colspan="2"><button onclick="encryption()">Encrypt</button></td>
+        </tr>
+        <tr>
+            <td colspan="2"><p id="originalMessage"></p></td>
+        </tr>
+        <tr>
+            <td colspan="2"><p id="encryptedMessage"></p></td>
+        </tr>
+        <tr>
+            <td><label for="ciphertext">Enter ciphertext:</label></td>
+            <td><input type="text" id="ciphertext" required></td>
+        </tr>
+        <tr>
+            <td colspan="2"><button onclick="decryption()">Decrypt</button></td>
+        </tr>
+        <tr>
+            <td colspan="2"><p id="decryptedMessage"></p></td>
+        </tr>
+    </table>
+</body>
+
+</html>

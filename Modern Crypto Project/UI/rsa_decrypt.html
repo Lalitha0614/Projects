@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSA Decryption</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        label {
+            font-size: 16px;
+            color: #333;
+        }
+
+        input {
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        hr {
+            border: 1px solid #f2f2f2;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+    <script>
+        let generatedN; // Variable to store the generated modulus
+
+        function isPrime(num) {
+            // Function to check if a number is prime
+            if (num < 2) {
+                return false;
+            }
+            for (let i = 2; i <= Math.sqrt(num); i++) {
+                if (num % i === 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function gcd(a, b) {
+            // Function to calculate the greatest common divisor
+            while (b) {
+                [a, b] = [b, a % b];
+            }
+            return a;
+        }
+
+        function modInverse(a, m) {
+            // Function to calculate the modular inverse
+            let m0 = m, x0 = 0, x1 = 1;
+            while (a > 1) {
+                const q = Math.floor(a / m);
+                [m, a] = [a % m, m];
+                [x0, x1] = [x1 - q * x0, x0];
+            }
+            return x1 + m0 * (x1 < 0 ? 1 : 0);
+        }
+
+        function modPower(x, y, p) {
+            // Function to calculate modular exponentiation
+            let res = 1;
+            while (y > 0) {
+                if (y & 1) {
+                    res = (res * x) % p;
+                }
+                y >>= 1;
+                x = (x * x) % p;
+            }
+            return res % p;
+        }
+
+        function generatePrimeNumber(min, max) {
+            // Function to generate a prime number in the specified range
+            while (true) {
+                const num = Math.floor(Math.random() * (max - min + 1) + min);
+                if (isPrime(num)) {
+                    return num;
+                }
+            }
+        }
+
+        function generateKeys() {
+            // Function to generate RSA keys
+            const length = parseInt(document.getElementById('length').value);
+            const p = generatePrimeNumber(2 ** length, 2 ** (length + 2));
+            const q = generatePrimeNumber(2 ** length, 2 ** (length + 2));
+
+            const d = parseInt(document.getElementById('privateExponent').value);
+
+            generatedN = p * q; // Store the generated modulus
+
+            const phi_of_n = (p - 1) * (q - 1);
+
+            const e = modInverse(d, phi_of_n);
+
+            document.getElementById('publicKey').textContent = `Public Key (e, n): (${e}, ${generatedN})`;
+            document.getElementById('privateKey').textContent = `Private Key (d, n): (${d}, ${generatedN})`;
+        }
+
+        function decrypt() {
+            // Function to perform RSA decryption
+            const c = parseInt(document.getElementById('ciphertext').value);
+            const d = parseInt(document.getElementById('privateExponent').value);
+
+            const m = modPower(c, d, generatedN); // Use the generated modulus
+
+            document.getElementById('decryptionResult').textContent = `Decryption Result: ${m}`;
+        }
+    </script>
+</head>
+<body>
+    <h1>RSA Decryption</h1>
+    <table>
+        <tr>
+            <td><label for="length">Enter the length of the prime:</label></td>
+            <td><input type="number" id="length" required></td>
+        </tr>
+        <tr>
+            <td><label for="privateExponent">Enter private exponent (d):</label></td>
+            <td><input type="number" id="privateExponent" required></td>
+        </tr>
+        <tr>
+            <td colspan="2"><button onclick="generateKeys()">Generate Keys</button></td>
+        </tr>
+        <tr>
+            <td colspan="2"><p id="publicKey"></p></td>
+        </tr>
+        <tr>
+            <td colspan="2"><p id="privateKey"></p></td>
+        </tr>
+    </table>
+    <hr>
+    <table>
+        <tr>
+            <td><label for="ciphertext">Enter ciphertext:</label></td>
+            <td><input type="number" id="ciphertext" required></td>
+        </tr>
+        <tr>
+            <td colspan="2"><button onclick="decrypt()">Decrypt</button></td>
+        </tr>
+        <tr>
+            <td colspan="2"><p id="decryptionResult"></p></td>
+        </tr>
+    </table>
+    <hr>
+</body>
+</html>

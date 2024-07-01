@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSA Encryption</title>
+   
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+            border-collapse: collapse;
+            padding: 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        input, button {
+            margin: 5px;
+            padding: 8px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            margin: 10px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: #ddd;
+        }
+    </style>
+
+    <script>
+        let n;
+
+        function isPrime(num) {
+            if (num < 2) {
+                return false;
+            }
+            for (let i = 2; i <= Math.sqrt(num); i++) {
+                if (num % i === 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function gcd(a, b) {
+            while (b) {
+                [a, b] = [b, a % b];
+            }
+            return a;
+        }
+
+        function modInverse(a, m) {
+            let m0 = m, x0 = 0, x1 = 1;
+            while (a > 1) {
+                const q = Math.floor(a / m);
+                [m, a] = [a % m, m];
+                [x0, x1] = [x1 - q * x0, x0];
+            }
+            return x1 + m0 * (x1 < 0 ? 1 : 0);
+        }
+
+        function modPower(x, y, p) {
+            let res = 1;
+            while (y > 0) {
+                if (y & 1) {
+                    res = (res * x) % p;
+                }
+                y >>= 1;
+                x = (x * x) % p;
+            }
+            return res % p;
+        }
+
+        function generatePrimeNumber(min, max) {
+            while (true) {
+                const num = Math.floor(Math.random() * (max - min + 1) + min);
+                if (isPrime(num)) {
+                    return num;
+                }
+            }
+        }
+
+        function generateKeys() {
+            const length = parseInt(document.getElementById('length').value);
+            const p = generatePrimeNumber(2 ** length, 2 ** (length + 2));
+            const q = generatePrimeNumber(2 ** length, 2 ** (length + 2));
+
+            const e = parseInt(document.getElementById('publicExponent').value);
+
+            n = p * q;
+
+            const phi_of_n = (p - 1) * (q - 1);
+
+            const d = modInverse(e, phi_of_n);
+
+            document.getElementById('publicKey').textContent = `Public Key (e, n): (${e}, ${n})`;
+            document.getElementById('privateKey').textContent = `Private Key (d, n): (${d}, ${n})`;
+        }
+
+        function encrypt() {
+            const m = parseInt(document.getElementById('message').value);
+            const e = parseInt(document.getElementById('publicExponent').value);
+
+            const c = modPower(m, e, n);
+            document.getElementById('ciphertext').textContent = `Ciphertext: ${c}`;
+        }
+    </script>
+</head>
+<body>
+    <h1>RSA Encryption</h1>
+    <table>
+        <tr>
+            <td><label for="length">Enter the length of the prime:</label></td>
+            <td><input type="number" id="length" required></td>
+        </tr>
+        <tr>
+            <td><label for="publicExponent">Enter public exponent (e):</label></td>
+            <td><input type="number" id="publicExponent" required></td>
+        </tr>
+        <tr>
+            <td colspan="2"><button onclick="generateKeys()">Generate Keys</button></td>
+        </tr>
+        <tr>
+            <td colspan="2"><p id="publicKey"></p></td>
+        </tr>
+        <tr>
+            <td colspan="2"><p id="privateKey"></p></td>
+        </tr>
+    </table>
+    <hr>
+    <table>
+        <tr>
+            <td><label for="message">Enter message:</label></td>
+            <td><input type="number" id="message" required></td>
+        </tr>
+        <tr>
+            <td colspan="2"><button onclick="encrypt()">Encrypt</button></td>
+        </tr>
+        <tr>
+            <td colspan="2"><p id="ciphertext"></p></td>
+        </tr>
+    </table>
+    <hr>
+</body>
+</html>

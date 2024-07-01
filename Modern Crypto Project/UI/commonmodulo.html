@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Common Modulo Attack-RSA</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 50%;
+            margin: auto;
+            text-align: left;
+            border: 1px solid #333;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #333;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        input {
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+    <script>
+        function clearResult() {
+            document.getElementById('result').textContent = '';
+        }
+
+        function gcd(a, b) {
+            while (b) {
+                [a, b] = [b, a % b];
+            }
+            return a;
+        }
+
+        function extendedGCD(a, b) {
+            if (a === 0) {
+                return [b, 0, 1];
+            } else {
+                const [g, x, y] = extendedGCD(b % a, a);
+                return [g, y - Math.floor(b / a) * x, x];
+            }
+        }
+
+        function modInverse(a, m) {
+            let m0 = m, x0 = 0, x1 = 1;
+            while (a > 1) {
+                const q = Math.floor(a / m);
+                [m, a] = [a % m, m];
+                [x0, x1] = [x1 - q * x0, x0];
+            }
+            return x1 + m0 * (x1 < 0 ? 1 : 0);
+        }
+
+        function abs(x) {
+            return x > 0 ? x : -x;
+        }
+
+        function calculateCommonMessage() {
+            const n = parseInt(document.getElementById('modulus').value);
+            const e1 = parseInt(document.getElementById('exponent1').value);
+            const e2 = parseInt(document.getElementById('exponent2').value);
+            const c1 = parseInt(document.getElementById('ciphertext1').value);
+            const c2 = parseInt(document.getElementById('ciphertext2').value);
+
+            const x = extendedGCD(e1, e2)[1];
+            const y = extendedGCD(e1, e2)[2];
+
+            let m1, m2;
+
+            if (x * y > 1) {
+                m1 = modPower(c1, x, n);
+                m2 = modPower(c2, y, n);
+            } else if (x < 0) {
+                const temp = modInverse(c1, n);
+                m1 = modPower(temp, abs(x), n);
+                m2 = modPower(c2, y, n);
+            } else if (y < 0) {
+                const temp = modInverse(c2, n);
+                m2 = modPower(temp, abs(y), n);
+                m1 = modPower(c1, x, n);
+            }
+
+            const commonMessage = (m1 * m2) % n;
+
+            document.getElementById('result').textContent = `Common Message: ${commonMessage}`;
+        }
+
+        function modPower(x, y, p) {
+            let res = 1;
+            while (y > 0) {
+                if (y & 1) {
+                    res = (res * x) % p;
+                }
+                y >>= 1;
+                x = (x * x) % p;
+            }
+            return res % p;
+        }
+    </script>
+</head>
+<body>
+    <h1>Common Modulo Attack-RSA</h1>
+    
+    <table>
+        <tr>
+            <th>Input</th>
+            <th>Action</th>
+        </tr>
+        <tr>
+            <td>
+                <label for="modulus">Enter the common modulus (n):</label>
+                <input type="number" id="modulus" required>
+                <br>
+                
+                <label for="exponent1">Enter the first public exponent (e1):</label>
+                <input type="number" id="exponent1" required>
+                <br>
+                
+                <label for="exponent2">Enter the second public exponent (e2):</label>
+                <input type="number" id="exponent2" required>
+                <br>
+                
+                <label for="ciphertext1">Enter the ciphertext encrypted with e1 (c1):</label>
+                <input type="number" id="ciphertext1" required>
+                <br>
+                
+                <label for="ciphertext2">Enter the ciphertext encrypted with e2 (c2):</label>
+                <input type="number" id="ciphertext2" required>
+            </td>
+            <td>
+                <button onclick="calculateCommonMessage()">Calculate Common Message</button>
+                <br>
+                <p id="result"></p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
